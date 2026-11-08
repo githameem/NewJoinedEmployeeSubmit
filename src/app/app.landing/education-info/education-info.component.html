@@ -1,0 +1,158 @@
+<nz-card style="width:100%;" nzTitle="Education Information">
+  <button nz-button nzType="primary" (click)="showModal()">
+    <span nz-icon nzType="plus"></span>
+    <span>Add New</span>
+  </button>
+  <nz-table #basicTable [nzData]="educationList">
+    <thead>
+      <tr>
+        <th>Degree</th>
+        <th>Major Subject</th>
+        <th>Institution</th>
+        <th>Passing Year</th>
+        <th>Result</th>
+        <th>Out Of</th>
+        <th>Board/University</th>
+        <th>Certificate</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td hidden>{{data.id}}</td>
+        <td hidden>{{data.empID}}</td>
+        <td>{{ data.degreeName }}</td>
+        <td>{{ data.subjectName }}</td>
+        <td>{{ data.institute }}</td>
+        <td>{{data.passingYear}}</td>
+        <td>{{data.result}}</td>
+        <td>{{data.outOf}}</td>
+        <td>{{data.boardName}}</td>
+        <td><a href="{{ data.document }}" target="_blank">Open PDF</a></td>
+        <td>
+          <button nz-button nzType="primary" nzDanger (click)="Delete(data.id)"><span nz-icon nzType="delete" nzTheme="outline"></span></button>
+          <button nz-button nzType="primary" (click)="Update(data)"><span nz-icon nzType="edit" nzTheme="outline"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  
+  <nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"  [nzWidth]="'50%'"
+    (nzOnCancel)="handleCancel()">
+    <ng-template #modalTitle>Education</ng-template>
+  
+    <ng-template #modalContent>
+      <form [formGroup]="educationForm">
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Degree</nz-form-label>
+              <nz-form-control nzSpan="16" nzErrorTip="Select Degree">
+                <nz-input-group>
+                  <nz-select formControlName="DegreeID" [nzSize]="'default'" nzPlaceHolder="Select a Degree" nzShowSearch="">
+                    <nz-option *ngFor="let option of degreeList" [nzLabel]="option.degreeName"
+                      [nzValue]="option.degreeID"></nz-option>
+                  </nz-select>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Subject</nz-form-label>
+              <nz-form-control nzSpan="16" nzErrorTip="Please input Your MajorSubject/Subject!">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="SubjectName" placeholder="SubJect Name" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Institute</nz-form-label>
+              <nz-form-control nzSpan="16" nzErrorTip="Please input Your Institution Name!">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="Institute" placeholder="Institution Name" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Passing Year</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <nz-date-picker nzMode="year" formControlName="PassingYear" ngModel
+                    (ngModelChange)="onChange($event)"></nz-date-picker>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+           
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Result</nz-form-label>
+              <nz-form-control nzSpan="16" nzErrorTip="Please input Your Result!">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="Result" placeholder="Result" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <!-- <nz-form-item>
+              <nz-form-label nzSpan="8">CG/CGPA/GPA(Out Of)</nz-form-label>
+              <nz-form-control nzSpan="16" nzErrorTip="Enter Your Total CG/CGPA/GPA!">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="OutOf" placeholder="CG/CGPA/GPA" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item> -->
+            <nz-form-item>
+              <nz-form-label nzSpan="8">CG/CGPA/GPA (Out Of)</nz-form-label>
+              <nz-form-control nzSpan="16" nzErrorTip="Enter Your Total CG/CGPA/GPA!" class="angular">
+                <nz-select formControlName="OutOf" nzPlaceHolder="Select CG/CGPA/GPA">
+                  <nz-option nzValue="4.00" nzLabel="4.00"></nz-option>
+                  <nz-option nzValue="5.00" nzLabel="5.00"></nz-option>
+                  <nz-option nzValue="Class/Division" nzLabel="Class/Division"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            
+            <nz-form-item>
+              <nz-form-label nzSpan="8">University</nz-form-label>
+              <nz-form-control nzSpan="16" nzErrorTip="Select Board Or University">
+                <nz-input-group>
+                  <nz-select formControlName="BoardID" [nzSize]="'default'" nzPlaceHolder="Select a Board/University"
+                    nzShowSearch="">
+                    <nz-option *ngFor="let option of boardList" [nzLabel]="option.boardName"
+                      [nzValue]="option.boardID"></nz-option>
+                  </nz-select>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8" nzRequired>Certificate</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <nz-upload nzType="drag" [nzMultiple]="false" (nzChange)="certificatehandleChange($event)">
+                    <p class="ant-upload-drag-icon">
+                      <span nz-icon nzType="inbox"></span>
+                    </p>
+                  </nz-upload>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        
+      </form>
+    </ng-template>
+  
+    <ng-template #modalFooter>
+      <div style="text-align: center;">
+        <div *ngIf="showButton" style="display: inline-block; margin-right: 8px;">
+            <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+        </div>
+        <div *ngIf="showButtonSubmit" style="display: inline-block; margin-right: 8px;">
+            <button nz-button nzType="primary" (click)="handleOk()">Submit</button>
+        </div>
+        <div *ngIf="showButtonUpdate" style="display: inline-block;">
+            <button nz-button nzType="primary" (click)="handleUpdate()">Update</button>
+        </div>
+    </div>
+    </ng-template>
+  </nz-modal>
+</nz-card>

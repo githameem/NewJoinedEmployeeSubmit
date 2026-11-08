@@ -1,0 +1,132 @@
+<nz-card style="width:100%;" nzTitle="References">
+  <button nz-button nzType="primary" (click)="showModal()">
+    <span nz-icon nzType="plus"></span>
+    <span>Add New</span>
+  </button>
+  <nz-table #basicTable [nzData]="referenceList">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Company</th>
+        <th>Designation</th>
+        <th>Relation</th>
+        <th>Phone No</th>
+        <th>Email</th>
+        <th>Telephone No</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td hidden>{{data.id}}</td>
+        <td hidden>{{data.empId}}</td>
+        <td>{{data.refName}}</td>
+        <td>{{data.companyName}}</td>
+        <td>{{data.designation}}</td>
+        <td>{{data.relation}}</td>
+        <td>{{data.phoneNo}}</td>
+        <td>{{data.email}}</td>
+        <td>{{data.telePhoneNo}}</td>
+        <td>
+          <button nz-button nzType="primary" nzDanger (click)="Delete(data.id)"><span nz-icon nzType="delete"
+              nzTheme="outline"></span></button>
+          <button nz-button nzType="primary" (click)="Update(data)"><span nz-icon nzType="edit"
+              nzTheme="outline"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    [nzWidth]="'50%'" (nzOnCancel)="handleCancel()">
+    <ng-template #modalTitle>Experience</ng-template>
+
+    <ng-template #modalContent>
+      <form [formGroup]="referenceForm">
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="12">
+            <nz-form-item hidden>
+              <nz-form-control>
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="ID" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Reference Name</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="RefName" placeholder="Reference Name" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Company</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="CompanyName" placeholder="Company name" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Designation</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="Designation" placeholder="Designation" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Relation</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="Relation" placeholder="Relation" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Phone</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="PhoneNo" placeholder="Phone Number" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Email</nz-form-label>
+              <nz-form-control nzSpan="16" nzErrorTip="Please Insert valid Emal">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="Email" placeholder="Email" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Telephone</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="TelePhoneNo" placeholder="TelePhone Number" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template #modalFooter>
+      <div style="text-align: center;">
+        <div *ngIf="showButton" style="display: inline-block; margin-right: 8px;">
+          <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+        </div>
+        <div *ngIf="showButtonSubmit" style="display: inline-block; margin-right: 8px;">
+          <button nz-button nzType="primary" (click)="handleOk()">Submit</button>
+        </div>
+        <div *ngIf="showButtonUpdate" style="display: inline-block;">
+          <button nz-button nzType="primary" (click)="handleUpdate()">Update</button>
+        </div>
+      </div>
+    </ng-template>
+  </nz-modal>
+
+</nz-card>

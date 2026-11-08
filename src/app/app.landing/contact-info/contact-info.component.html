@@ -1,0 +1,476 @@
+<nz-card style="width:100%;" [nzBordered]="false" nzTitle="Contact Information">
+    <form nz-form [formGroup]="contactForm" class="basic-form" (ngSubmit)="submitForm()">
+        <div class="contactform">
+            <div nz-row [nzGutter]="16">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">Mobile No</nz-form-label>
+                        <nz-form-control nzSpan="16" nzErrorTip="Please input your Mobile Number!">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="Mobile" placeholder="Mobile" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">Social Media</nz-form-label>
+                        <nz-form-control nzSpan="16">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="SocialMediaID"
+                                    placeholder="Social Media(Face book/Imo/Viber)" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">Contact Person</nz-form-label>
+                        <nz-form-control nzSpan="16" nzErrorTip="Please input Emergency Contact Person Name!">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="EmergContactName"
+                                    placeholder="Emergency Contact Name" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div nz-row [nzGutter]="16">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">P-Email</nz-form-label>
+                        <nz-form-control nzSpan="16" nzErrorTip="Please input your Personal Email!">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="Email" placeholder="Personal Email" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">Email-office</nz-form-label>
+                        <nz-form-control nz-Span="16" nzErrorTip="Please input valid Official Mail address!">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="EmailOffice" placeholder="Office Email" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">Address</nz-form-label>
+                        <nz-form-control nzSpan="16" nzErrorTip="Please input Emergency address!">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="EmergContactAddress"
+                                    placeholder="Emergency Contact Address" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div nz-row [nzGutter]="16">
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">FAX</nz-form-label>
+                        <nz-form-control nzSpan="16">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="FAX" placeholder="FAX" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">PABX</nz-form-label>
+                    <nz-form-control nzSpan="16">
+                        <nz-input-group>
+                            <input type="text" nz-input formControlName="PABX" placeholder="PABX" />
+                        </nz-input-group>
+                    </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">Contact</nz-form-label>
+                        <nz-form-control nzSpan="16" nzErrorTip="Please input Emergency Contact Number">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="EmergContact" placeholder="Emergency Contact Number" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div nz-row [nzGutter]="16">
+                <div nz-col nzSpan="8">
+                    
+                </div>
+                <div nz-col nzSpan="8">
+                    
+                </div>
+                <div nz-col nzSpan="8">
+                    <nz-form-item>
+                        <nz-form-label nzSpan="8">Relation</nz-form-label>
+                        <nz-form-control nzSpan="16">
+                            <nz-input-group>
+                                <input type="text" nz-input formControlName="RelationWith"
+                                    placeholder="Relation With Emergency Contact" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col nzSpan="12">
+                <nz-card style="width:100%;" nzTitle="Present address">
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Village</nz-form-label>
+                                <nz-form-control nzSpan="16" nzErrorTip="Please input Village Name!">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PreVillage" placeholder="Village Name" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Vill(Bn)</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PreVillageBan" placeholder="Village Name Bangla" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Road</nz-form-label>
+                                <nz-form-control nzSpan="16" nzErrorTip="Please input Road Name!">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PreRoad" placeholder="Road/BLock Name" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Road(Bn)</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PreRoadBan"
+                                            placeholder="Road/BLock Name Bangla" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Division</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PreDivisionID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a Division" nzShowSearch
+                                            (ngModelChange)="onDivisionChange($event)">
+                                            <nz-option *ngFor="let option of divisionList" [nzLabel]="option.divisionName"
+                                                [nzValue]="option.divisionID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Distrct</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PreDistrictID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a District" nzShowSearch
+                                            (ngModelChange)="onDistrictChange($event)">
+                                            <nz-option *ngFor="let option of districtList" [nzLabel]="option.districtName"
+                                                [nzValue]="option.districtID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Upazila</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PreUpazilaID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a Upazila" nzShowSearch
+                                            (ngModelChange)="onUpazilaChange($event)">
+                                            <nz-option *ngFor="let option of upazilaList" [nzLabel]="option.upazilaName"
+                                                [nzValue]="option.upazilaID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Union</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PreUnionID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a District" nzShowSearch>
+                                            <nz-option *ngFor="let option of unionList" [nzLabel]="option.unionName"
+                                                [nzValue]="option.unionID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Thana</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PreThanaID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a Thana" nzShowSearch>
+                                            <nz-option *ngFor="let option of thanaList" [nzLabel]="option.thanaName"
+                                                [nzValue]="option.thanaID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">BusStop</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="BusStop" placeholder="Nearest BusStop" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Post Office</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PrePostOffice" placeholder="Post Office" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">PostOff(Bn)</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PrePostOfficeBan" placeholder="Post Office Bangla" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>                          
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Post Code</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PrePostCode" placeholder="Post COde" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                              
+                            </nz-form-item>                          
+                        </div>
+                    </div>
+                </nz-card>
+            </div>
+            <div nz-col nzSpan="12">
+                <nz-card style="width:100%;" nzTitle="Permanent Address">
+                    <label nz-checkbox [(ngModel)]="sameAsPresent" (nzCheckedChange)="onCheckboxChange($event)" style="padding-bottom: 2%; color: #40a9ff;">Same As Present Address</label>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Village</nz-form-label>
+                                <nz-form-control nzSpan="16" nzErrorTip="Please input Village Name!">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PerVillage" placeholder="Village Name" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Vill(Bn)</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PerVillageBan"
+                                            placeholder="Village Name Bangla" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Road</nz-form-label>
+                                <nz-form-control nzSpan="16" nzErrorTip="Please input Road Name!">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PerRoad" placeholder="Road/BLock Name" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Road(Bn)</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PerRoadBan"
+                                            placeholder="Road/BLock Name Bangla" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Division</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PerDivisionID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a Division" nzShowSearch
+                                            (ngModelChange)="onDivisionChange($event)">
+                                            <nz-option *ngFor="let option of divisionList" [nzLabel]="option.divisionName"
+                                                [nzValue]="option.divisionID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Distrct</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PerDistrictID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a District" nzShowSearch
+                                            (ngModelChange)="onDistrictChange($event)">
+                                            <nz-option *ngFor="let option of districtList" [nzLabel]="option.districtName"
+                                                [nzValue]="option.districtID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Upazila</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PerUpazilaID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a Upazila" nzShowSearch
+                                            (ngModelChange)="onUpazilaChange($event)">
+                                            <nz-option *ngFor="let option of upazilaList" [nzLabel]="option.upazilaName"
+                                                [nzValue]="option.upazilaID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Union</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PerUnionID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a District" nzShowSearch>
+                                            <nz-option *ngFor="let option of unionList" [nzLabel]="option.unionName"
+                                                [nzValue]="option.unionID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Thana</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="PerThanaID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a Thana" nzShowSearch>
+                                            <nz-option *ngFor="let option of thanaList" [nzLabel]="option.thanaName"
+                                                [nzValue]="option.thanaID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Post Office</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PerPostOffice" placeholder="Post Office" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Post Office(Ban)</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PerPostOfficeBan"
+                                            placeholder="Post Office Bangla" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Post Code</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="PerPostCode" placeholder="Post Code" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>                         
+                        </div>
+                    </div>
+                </nz-card>
+            </div>
+        </div>
+        <div class="actionButtons">
+            <div style="text-align: center;">
+                <div *ngIf="showInsertButton" style="display: inline-block; margin-right: 8px;">
+                    <button nz-button type="submit" nz-button nzType="primary" nzBlock>Save</button>
+                </div>
+                <div *ngIf="showUpdateButton" style="display: inline-block;">
+                    <button type="button" nzType="primary" nz-button (click)="UpdateInfo()" nzBlock>UPDATE</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</nz-card>

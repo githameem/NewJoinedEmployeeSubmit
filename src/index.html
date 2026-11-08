@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NewJoinedEmployee</title>
+  <base href="/">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="icon" type="image/x-icon" href="./assets/logo/images.jpg">
+  <style>
+    /* CSS for your layout */
+    .logo img {
+      width: 4%;
+    }
+    .tabs {
+      display: flex;
+      overflow-x: auto; /* Horizontal scroll for small screens */
+    }
+    .content {
+      padding: 20px;
+    }
+    @media only screen and (max-width: 768px) {
+      .tabs {
+        flex-wrap: wrap;
+      }
+      .tabs nz-tab {
+        flex-basis: 50%; /* Two tabs per row on smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

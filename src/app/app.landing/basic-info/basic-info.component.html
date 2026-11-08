@@ -1,0 +1,126 @@
+<nz-card *ngIf="isfinalSubmit" style="width:100%;" nzTitle="Employee Basic">
+    <div class="header">
+        <title>Basic Information</title>
+    </div>
+    <div class="container">
+        <div class="formBody">
+            <form nz-form [formGroup]="basicForm" class="login-form">
+                <div class="basicForm">
+                    <div nz-row [nzGutter]="16">
+                        <nz-form-item hidden>
+                            <nz-form-control>
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="EmpID" placeholder="EmpID" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item hidden>
+                            <nz-form-control>
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="EmpCode" placeholder="Employee Code" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <div nz-col nzSpan="8">
+                            <!-- <nz-form-item>
+                                <nz-form-label nzSpan="8">Title</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="Title" placeholder="Title" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item> -->
+                        </div>
+                        <div nz-col nzSpan="8">
+                            <!-- <nz-form-item>
+                                <nz-form-label nzSpan="8">Title(Bangla)</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="TitleBan" placeholder="Title Bangla" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item> -->
+                        </div>
+                        <div nz-col nzSpan="8">
+                            <!-- <nz-form-item>
+                                <nz-form-label nzSpan="8">Designation</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="DesignationID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a Designation" [nzDisabled]="true">
+                                            <nz-option *ngFor="let option of designationList"
+                                                [nzLabel]="option.designationName"
+                                                [nzValue]="option.designationID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item> -->
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="16">
+                        <!-- <div nz-col nzSpan="8">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Name</nz-form-label>
+                                <nz-form-control nzSpan="16" nzErrorTip="Please input your Name!">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="Name" placeholder="Name" />
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div> -->
+                        <div nz-col nzSpan="8">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="8">Name(Bangla)
+                                    <!-- <span style="color: red;">*As Per NID*</span> -->
+                                </nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="NameBan"
+                                            placeholder="Name Bangla" />
+                                    </nz-input-group>
+                                    <div class="warning-text" style="color: green;">
+                                        ** Please fillup your name as NID **
+                                    </div>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-col nzSpan="8">
+                            <!-- <nz-form-item>
+                                <nz-form-label nzSpan="8">Status</nz-form-label>
+                                <nz-form-control nzSpan="16">
+                                    <nz-input-group>
+                                        <nz-select formControlName="EmpStatusID" [nzSize]="'default'"
+                                            nzPlaceHolder="Select a Employee Status" [nzDisabled]="true">
+                                            <nz-option *ngFor="let option of employmentStatusList"
+                                                [nzLabel]="option.empStatusName"
+                                                [nzValue]="option.empStatusID"></nz-option>
+                                        </nz-select>
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item> -->
+                        </div>
+                    </div>
+                    <div class="actionButtons">
+                        <div nz-row nzJustify="center" [nzGutter]="16"> <!-- Adjust 16 to your desired gutter size -->
+                            <div nz-col nzSpan="6"></div>
+                            <!-- <div nz-col nzSpan="4"> 
+                            <button nz-button nzType="primary" nzBlock>Insert</button>
+                        </div> -->
+                            <div nz-col nzSpan="4">
+                                <button nz-button nzType="primary" (click)="UpdateInfo()" nzBlock>Save</button>
+                            </div>
+                            <div nz-col nzSpan="6"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nz-card>
+<nz-card *ngIf="showFinalSubmitedPage">
+    <nz-result nzStatus="500" nzTitle="202" nzSubTitle="Sorry, You Already Submited your informations.">
+        <!-- <div nz-result-extra>
+          <button nz-button nzType="primary">Back Home</button>
+        </div> -->
+      </nz-result>    
+</nz-card>

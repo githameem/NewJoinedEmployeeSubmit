@@ -1,0 +1,54 @@
+<nz-card style="width:100%;" [nzBordered]="false" nzTitle="Driving License">
+    <form [formGroup]="drivingLicenseForm">
+        <div nz-row [nzGutter]="16">
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzSpan="4">Driving License</nz-form-label>
+                    <nz-form-control nzSpan="20" nzErrorTip="Please input License Number!">
+                        <nz-input-group>
+                            <input type="text" nz-input formControlName="DrivingLicense" placeholder="Driving License Number" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzSpan="4">Issue Date </nz-form-label>
+                    <nz-form-control nzSpan="20" nzErrorTip="Please Select Your Issued date!">
+                        <nz-input-group>
+                            <nz-date-picker formControlName="DIssuedate" [nzSize]="'default'"></nz-date-picker>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzSpan="4">Expire Date</nz-form-label>
+                    <nz-form-control nzSpan="20" nzErrorTip="Please Select Your Expiry Date!">
+                        <nz-input-group>
+                            <nz-date-picker formControlName="DExpiredate" [nzSize]="'default'"></nz-date-picker>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzSpan="4">Issue Country </nz-form-label>
+                    <nz-form-control nzSpan="20" nzErrorTip="Please Select your Issued Country!">
+                        <nz-input-group>
+                            <nz-select formControlName="DAuthorityCountryID" [nzSize]="'default'"
+                                nzPlaceHolder="Select a Country" nzShowSearch="">
+                                <nz-option *ngFor="let option of countryList" [nzLabel]="option.countryName"
+                                    [nzValue]="option.countryID"></nz-option>
+                            </nz-select>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <div class="actionButtons">
+                    <div style="text-align: center;">
+                        <div *ngIf="showInsertButton" style="display: inline-block; margin-right: 8px;">
+                            <button nz-button nzType="primary" (click)="handleOk()">Save</button>
+                        </div>
+                        <div *ngIf="showUpdateButton" style="display: inline-block;">
+                            <button nz-button nzType="primary" (click)="handleUpdate()">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</nz-card>

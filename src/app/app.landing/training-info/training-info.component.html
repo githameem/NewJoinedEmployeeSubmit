@@ -1,0 +1,108 @@
+<nz-card style="width:100%;" nzTitle="Training Information">
+  <button nz-button nzType="primary" (click)="showModal()">
+    <span nz-icon nzType="plus"></span>
+    <span>Add New</span>
+  </button>
+<nz-table #basicTable [nzData]="trainigList">
+    <thead>
+      <tr>
+        <th>Course Name</th>
+        <th>Start Date</th>
+        <th>End date</th>
+        <th>Duration</th>
+        <th>Result</th>
+        <th>Institute</th>
+        <th>Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td hidden>{{data.id}}</td>
+        <td hidden>{{data.empID}}</td>
+        <td>{{data.courseName}}</td>
+        <td>{{data.startDate | date}}</td>
+        <td>{{data.endDate | date}}</td>
+        <td>{{data.duration}}</td>
+        <td>{{data.result}}</td>
+        <td>{{data.institute}}</td>
+        <td>
+            <button nz-button nzType="primary" nzDanger (click)="Delete(data.id)"><span nz-icon nzType="delete" nzTheme="outline"></span></button>
+            <button nz-button nzType="primary" (click)="Update(data)"><span nz-icon nzType="edit" nzTheme="outline"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-modal
+    [(nzVisible)]="isVisible"
+    [nzTitle]="modalTitle"
+    [nzContent]="modalContent"
+    [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()"
+  >
+    <ng-template #modalTitle>Training</ng-template>
+
+    <ng-template #modalContent>
+      <form [formGroup]="trainingForm">
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Course Name</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="CourseName" placeholder="Course Name" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzSpan="8" nzRequired>Start Date </nz-form-label>
+                <nz-form-control nzSpan="16">
+                    <nz-input-group>
+                        <nz-date-picker formControlName="StartDate" [nzSize]="'default'"></nz-date-picker>
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzSpan="8" nzRequired>End Date</nz-form-label>
+                <nz-form-control nzSpan="16">
+                    <nz-input-group>
+                        <nz-date-picker formControlName="EndDate" [nzSize]="'default'"></nz-date-picker>
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Result</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-input-group>
+                  <input type="text" nz-input formControlName="Result" placeholder="Result" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="8">Institute</nz-form-label>
+                <nz-form-control nzSpan="16">
+                  <nz-input-group>
+                    <input type="text" nz-input formControlName="Institute" placeholder="Institute" />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template #modalFooter>
+      <div style="text-align: center;">
+        <div *ngIf="showButton" style="display: inline-block; margin-right: 8px;">
+            <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+        </div>
+        <div *ngIf="showButtonSubmit" style="display: inline-block; margin-right: 8px;">
+            <button nz-button nzType="primary" (click)="handleOk()">Submit</button>
+        </div>
+        <div *ngIf="showButtonUpdate" style="display: inline-block;">
+            <button nz-button nzType="primary" (click)="handleUpdate()">Update</button>
+        </div>
+    </div>
+    </ng-template>
+  </nz-modal>
+</nz-card>

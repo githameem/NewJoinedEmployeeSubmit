@@ -1,0 +1,33 @@
+
+<!-- <img nz-image width="200px" height="200px"[nzSrc]="imageUrl || ''"  alt="Uploaded Image" />
+<div class="clearfix">
+  <nz-upload
+    nzListType="picture"
+    [(nzFileList)]="fileList"
+   
+    (nzChange)="handleFileInput($event)"
+  >
+    <button nz-button>
+      <span nz-icon nzType="upload"></span>
+      Upload
+    </button>
+  </nz-upload>
+</div> -->
+<nz-card nzHoverable style="width:240px" [nzCover]="coverTemplate">
+  <div class="clearfix">
+    <nz-upload
+      nzListType="picture"
+      [(nzFileList)]="fileList"
+     
+      (nzChange)="handleFileInput($event)"
+    >
+      <button nz-button>
+        <span nz-icon nzType="upload"></span>
+        Upload
+      </button>
+    </nz-upload>
+  </div>
+</nz-card>
+<ng-template #coverTemplate>
+  <img nz-image width="200px" height="200px"[nzSrc]="imageUrl || ''"  alt="Uploaded Image" />
+</ng-template>

@@ -1,0 +1,218 @@
+<nz-card style="width:100%;" nzTitle="Personal Information">
+    <div class="header">
+        <title>Basic Information</title>
+    </div>
+    <div class="container">
+        <div class="main">
+            <form nz-form [formGroup]="personalForm" class="login-form"  enctype="multipart/form-data">
+                <div nz-row [nzGutter]="16">
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Fathers Name</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="FathersName" placeholder="Fathers Name" />
+                                </nz-input-group>
+                                <div class="warning-text" style="color: green;">
+                                    ** Please fillup your fathers name Same as NID **
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Religion</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-select formControlName="ReligionID" [nzSize]="'default'" nzPlaceHolder="Select Religion">
+                                        <nz-option *ngFor="let option of religionList" [nzLabel]="option.religionName"
+                                            [nzValue]="option.religionID"></nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="16">
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Mothers Name</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="MothersName"
+                                        placeholder="MothersName" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Country</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-select formControlName="CountryID" [nzSize]="'default'"
+                                        nzPlaceHolder="Select Country">
+                                        <nz-option *ngFor="let option of countryList" [nzLabel]="option.countryName"
+                                            [nzValue]="option.countryID"></nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="16">
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Maritial Status</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-select formControlName="MaritalStatusID" [nzSize]="'default'"
+                                        nzPlaceHolder="Select Marital Status">
+                                        <nz-option *ngFor="let option of maritalstatusList"
+                                            [nzLabel]="option.maritalStatusName"
+                                            [nzValue]="option.maritalStatusID"></nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">NID No</nz-form-label>
+                            <nz-form-control nzSpan="16" nzErrorTip="Please input your NID Number!">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="NidNo" placeholder="NID Number" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="16">
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                           <nz-form-label nzSpan="8">Spouse Name</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="SpouseName" placeholder="SpouseName" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Birth Certificate No</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="BirthCertificateNo"
+                                        placeholder="BirthCertificatee Number" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="16">
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Gender</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-select formControlName="GenderID" [nzSize]="'default'"
+                                        nzPlaceHolder="Select gender">
+                                        <nz-option *ngFor="let option of genderList" [nzLabel]="option.genderName"
+                                            [nzValue]="option.genderID"></nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Blood Group</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-select formControlName="BloodGroupID" [nzSize]="'default'"
+                                        nzPlaceHolder="Select BloodGroup">
+                                        <nz-option *ngFor="let option of bloodGroupList"
+                                            [nzLabel]="option.bloodGroupName"
+                                            [nzValue]="option.bloodGroupID"></nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="16">
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                        
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Date Of Birth</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-date-picker formControlName="DateOfBirth" [nzSize]="'default'"></nz-date-picker>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="16">
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired="">NID</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-upload nzType="drag" [nzMultiple]="false" (nzChange)="nidhandleChange($event)">
+                                        <p class="ant-upload-drag-icon">
+                                            <span nz-icon nzType="inbox"></span>
+                                        </p>
+                                        <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                                        <p class="ant-upload-hint">
+                                            Support for a single upload. Strictly prohibit from uploading company data
+                                            or other banned files
+                                        </p>
+                                    </nz-upload>
+                                    <div *ngIf="showNidUrl">
+                                        <a href="{{ nidUrl }}" target="_blank">View Uploaded File</a>
+                                    </div>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired>Offer Letter</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-upload nzType="drag" [nzMultiple]="false"
+                                    (nzChange)="offerLetterhandleChange($event)">
+                                    <p class="ant-upload-drag-icon">
+                                        <span nz-icon nzType="inbox"></span>
+                                    </p>
+                                    <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                                    <p class="ant-upload-hint">
+                                        Support for a single upload. Strictly prohibit from uploading company data or
+                                        other banned files
+                                    </p>
+                                </nz-upload>
+                                <div *ngIf="showOfferLetterUrl">
+                                    <a href="{{ offerLetterUrl }}" target="_blank">View Uploaded File</a>
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="actionButtons">
+                    <div nz-row nzJustify="center" [nzGutter]="16"> <!-- Adjust 16 to your desired gutter size -->
+                        <div nz-col nzSpan="6"></div>
+                        <!-- <div nz-col nzSpan="4"> <button nz-button nzType="primary" nzBlock>Insert</button></div> -->
+                        <div nz-col nzSpan="4"> <button nz-button nzType="primary" (click)="UpdatePersonalInfo()"
+                                nzBlock>Save</button></div>
+                        <div nz-col nzSpan="6"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nz-card>

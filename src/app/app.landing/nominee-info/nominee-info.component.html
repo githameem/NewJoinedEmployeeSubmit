@@ -1,0 +1,175 @@
+<nz-card style="width:100%;" nzTitle="Nominee Information">
+    <button nz-button nzType="primary" [nzSize]="'default'" nz-button [nzType]="'primary'" (click)="showModal()">
+        <span nz-icon nzType="plus"></span>
+        Add New
+    </button>
+    <nz-table #basicTable [nzData]="NomineeList">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Relationship</th>
+                <th>Relation(Others)</th>
+                <th>Date Of Birth</th>
+                <th>NID NO</th>
+                <th>Birth Reg</th>
+                <th>Owneership</th>
+                <th>Photo</th>
+                <th>NID-File</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td hidden>{{data.nomineeId}}</td>
+                <td>{{ data.nomineeName }}</td>
+                <td>{{ data.relationshipName }}</td>
+                <td>{{ data.relationshipOthers }}</td>
+                <td>{{ data.dateOfBirth | date}}</td>
+                <td>{{ data.nid }}</td>
+                <td>{{ data.birthRegNo }}</td>
+                <td>{{ data.nomineeOwnership }}</td>
+                <td>
+                    <!-- <img nz-image width="50" height="50px" [nzSrc]="data.photoPath" alt="" /> -->
+                    <a href="{{ data.photoPath }}" target="_blank">Download Image</a>
+                </td>
+                <td>
+                    <a href="{{ data.document }}" target="_blank">Download PDF</a>
+                <td>
+                    <button nz-button nzType="primary" nzDanger (click)="Delete(data.nomineeId)"><span nz-icon nzType="delete" nzTheme="outline"></span></button>
+                    <button nz-button nzType="primary" (click)="Update(data)"><span nz-icon nzType="edit" nzTheme="outline"></span></button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    <nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"  [nzWidth]="'50%'"
+        (nzOnCancel)="handleCancel()">
+        <ng-template #modalTitle>Nominee</ng-template>
+
+        <ng-template #modalContent>
+            <form [formGroup]="nomineeForm">
+                <div nz-row [nzGutter]="16">
+                    <!-- Left side controls -->
+                    <div nz-col nzSpan="12">
+                        <!-- Nominee Name -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Nominee Name</nz-form-label>
+                            <nz-form-control nzSpan="16" nzErrorTip="Please input your Name!">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="NomineeName" placeholder="Nominee Name" />
+                                </nz-input-group>
+                                <div class="warning-text" style="color: green;">
+                                    ** Please fillup nominee name as nominees NID **
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <!-- Relationship With -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Relationship With</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-select formControlName="RelationshipId" [nzSize]="'default'"
+                                        nzPlaceHolder="Select a Relation">
+                                        <nz-option *ngFor="let option of relationshipList" [nzLabel]="option.relationshipName"
+                                            [nzValue]="option.relationshipId"></nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <!-- Date Of Birth -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired>Date Of Birth</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-date-picker formControlName="DateOfBirth" [nzSize]="'default'"></nz-date-picker>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <!-- Percentage Of Nominee -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired>Percentage Of Nominee</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-input-number formControlName="NomineeOwnership" [(ngModel)]="demoValue" [nzMin]="1"
+                                        [nzMax]="100" [nzStep]="1" [nzFormatter]="formatterPercent"
+                                        [nzParser]="parserPercent"></nz-input-number>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <!-- Right side controls -->
+                    <div nz-col nzSpan="12">
+                        <!-- Nominee NID -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Nominee NID</nz-form-label>
+                            <nz-form-control nzSpan="16" nzErrorTip="Please input your NID Number!">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="NID" placeholder="Nominee NID NO" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <!-- Relation Name(Other) -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">Relation Name(Other)</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="RelationshipOthers"
+                                        placeholder="Relationship(Others)" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <!-- BirthRegNo -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8">BirthRegNo</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <input type="text" nz-input formControlName="BirthRegNo" placeholder="BirthRegNo" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <!-- Nominee Photo -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired>Nominee Photo</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-upload nzListType="picture" nzMultiple="false" (nzChange)="photohandleChange($event)">
+                                        <button nz-button>
+                                            <span nz-icon nzType="upload"></span>
+                                            Upload
+                                        </button>
+                                    </nz-upload>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <!-- NomineeNID -->
+                        <nz-form-item>
+                            <nz-form-label nzSpan="8" nzRequired>NomineeNID</nz-form-label>
+                            <nz-form-control nzSpan="16">
+                                <nz-input-group>
+                                    <nz-upload nzType="drag" [nzMultiple]="false" (nzChange)="nidhandleChange($event)">
+                                        <p class="ant-upload-drag-icon">
+                                            <span nz-icon nzType="inbox"></span>
+                                        </p>
+                                    </nz-upload>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+
+        <ng-template #modalFooter>
+            <div style="text-align: center;">
+                <div *ngIf="showButton" style="display: inline-block; margin-right: 8px;">
+                    <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+                </div>
+                <div *ngIf="showButtonSubmit" style="display: inline-block; margin-right: 8px;">
+                    <button nz-button nzType="primary" (click)="handleOk()">Submit</button>
+                </div>
+                <div *ngIf="showButtonUpdate" style="display: inline-block;">
+                    <button nz-button nzType="primary" (click)="handleUpdate()">Update</button>
+                </div>
+            </div>
+        </ng-template>
+    </nz-modal>
+</nz-card>

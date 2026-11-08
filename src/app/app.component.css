@@ -1,0 +1,53 @@
+ .container {
+  display: flex;
+}
+
+.tabs {
+  flex: 0 0 auto;
+  width: 200px; 
+}
+
+.content {
+  flex: 1;
+  padding: 20px; 
+} 
+[nz-menu] {
+  line-height: 64px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+nz-footer {
+  text-align: center;
+}
+
+.inner-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}
+
+.custom-tab {
+  background-color: crimson !important;
+  color: wheat !important;
+  border-radius: 22px !important;
+}
+.button-container {
+  position: absolute;
+  top: 0;
+  right: 20px; /* Adjust this value as needed */
+}
+.imagediv{
+  text-align: center;
+    margin-top: 13%;
+    margin-bottom: 13%;
+}
+:host ::ng-deep .ant-tabs-left > .ant-tabs-nav .ant-tabs-tab,
+:host ::ng-deep .ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab,
+:host ::ng-deep .ant-tabs-right > .ant-tabs-nav .ant-tabs-tab,
+:host ::ng-deep .ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab {
+  padding: 0px 24px;
+  text-align: center;
+}
