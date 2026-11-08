@@ -30,7 +30,6 @@ export class BasicInfoComponent implements OnInit {
   parmKey: any;
   empID: any;
   submittingForm: boolean = false;
-  finalSubmitEmpId : any;
 
   isfinalSubmit = false;
   showFinalSubmitedPage = false;
@@ -48,43 +47,53 @@ export class BasicInfoComponent implements OnInit {
   ) {}
 
 
-  ngOnInit(): void 
-  {
-    this.empID = localStorage.getItem('EmpCode');
-    if (this.empID != null || this.empID == '') {
-      this.encID = this.empID;
-    } else {
-      this.parmKey = this.activeRoute.snapshot.params['key'];
+  ngOnInit(): void {
+    this.parmKey = this.activeRoute.snapshot.paramMap.get('key');
+    if (this.parmKey !== null) {
       localStorage.setItem('EncKey', this.parmKey);
       this.encID = this.dyc.DycrptToId(this.parmKey);
+    } else {
+      this.encID = localStorage.getItem('EmpCode');
     }
 
     this.getBasicInfo();
-    //this.finalSubmitEmpId = localStorage.getItem('EmpID');
     this.getDesignation();
     this.getEmpStatus();
-    this.getFinalSubmit();
   }
+
   getBasicInfo() {
-    this.basicService.GetBasicInfoByCode(this.encID).subscribe((res) => {
-      console.log(res);
-      this.fetchedEmployeeInfo = res.datas;
-      this.basicService.GetBasicInfoByCode(this.encID).subscribe((res) => {
-        console.log(res);
-        localStorage.setItem('EmpID', res.datas[0].empID);
-        localStorage.setItem('EmpCode', res.datas[0].empCode);
+    this.basicService.GetBasicInfoByCode(this.encID).subscribe({
+      next: (res) => {
+        const employee = res?.datas?.[0];
+        if (!employee) {
+          this.msgService.error(res?.message || 'Employee information was not found.');
+          return;
+        }
+
+        this.fetchedEmployeeInfo = res.datas;
+        localStorage.setItem('EmpID', employee.empID);
+        localStorage.setItem('EmpCode', employee.empCode);
+        if (this.parmKey !== null) {
+          localStorage.setItem('EncKey', this.parmKey);
+        }
+
         this.basicForm.patchValue({
-          EmpID: res.datas[0].empID,
-          EmpCode: res.datas[0].empCode,
-          // Title: res.datas[0].title,
-          // Name: res.datas[0].name,
-          // TitleBan: res.datas[0].titleBan,
-          NameBan: res.datas[0].nameBan,
-          DesignationID: res.datas[0].designationID,
-          EmpStatusID: res.datas[0].empStatusID,
+          EmpID: employee.empID,
+          EmpCode: employee.empCode,
+          NameBan: employee.nameBan,
+          DesignationID: employee.designationID,
+          EmpStatusID: employee.empStatusID,
         });
-        this.cdr.detectChanges(); // Trigger change detection
-      });
+        this.cdr.detectChanges();
+
+        this.finalSubmitservice.isFinalSubmitted(employee.empID).subscribe((submitted) => {
+          this.isfinalSubmit = !submitted;
+          this.showFinalSubmitedPage = submitted;
+        });
+      },
+      error: (err) => {
+        this.msgService.error(err.message || 'Unable to load employee information.');
+      },
     });
   }
   getDesignation() {
@@ -99,31 +108,6 @@ export class BasicInfoComponent implements OnInit {
       this.employmentStatusList = res.datas;
     });
   }
-  getFinalSubmit() {
-    this.finalSubmitservice.GetFinalSubmitByEmpId(localStorage.getItem('EmpID')).subscribe({
-      next: (res) => {
-        if (res.success === false) {
-          this.isfinalSubmit = true;
-          this.showFinalSubmitedPage = false;
-        } else {
-          var data = res.datas;
-          if (data && data.length > 0 && data[0].hasOwnProperty('isFinalSubmit')) {
-            if (data[0].isFinalSubmit === true) {
-              this.isfinalSubmit = false;
-              this.showFinalSubmitedPage = true;
-            } else {
-              this.isfinalSubmit = false;
-              this.showFinalSubmitedPage = true;
-            }
-          } else {
-            this.isfinalSubmit = true;
-          this.showFinalSubmitedPage = false;
-          }
-        }
-      },
-    });
-  }
-
   basicForm = new FormGroup({
     EmpID: new FormControl(''),
     EmpCode: new FormControl(''),

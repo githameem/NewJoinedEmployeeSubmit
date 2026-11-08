@@ -23,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: 'basic/:key',
-    component: BasicInfoComponent
+    component: BasicInfoComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'contact',
@@ -81,7 +82,8 @@ const routes: Routes = [
   },
   {
     path: 'signature',
-    component:SignatureComponent
+    component:SignatureComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '**',

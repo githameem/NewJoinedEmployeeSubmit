@@ -25,7 +25,6 @@ export class FinalSubmitComponent implements OnInit
       nzContent: 'Are you sure you want to submit?',
       nzOnOk: () => {
         this.finalSubmit();
-        localStorage.clear();
       }
     });
   }
@@ -42,7 +41,7 @@ export class FinalSubmitComponent implements OnInit
         })
       },
       error :(err)=>{
-        this.msgService.success(err.message, 
+        this.msgService.error(err.message,
           {
             nzDuration: 3000,
           })

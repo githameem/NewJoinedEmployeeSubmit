@@ -1,5 +1,5 @@
-import { Component,Renderer2, ElementRef, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EmployeeFinalSubmitService } from './app.services/employee-final-submit.service';
@@ -9,102 +9,87 @@ import { EmployeeFinalSubmitService } from './app.services/employee-final-submit
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit 
-{
-  tabDiabled= false;
+export class AppComponent implements OnInit {
   title = 'NewJoinedEmployee';
-  key = localStorage.getItem("EmoCode");
-  EmpID : any;
+  key = localStorage.getItem('EmpCode');
+  EmpID: any;
   isfinalSubmit = false;
   showFinalSubmitedPage = false;
-  constructor(private router: Router,private renderer: Renderer2, 
-    private elementRef: ElementRef, 
-    private msgService : NzMessageService, 
+
+  constructor(
+    private router: Router,
+    private msgService: NzMessageService,
     private modalService: NzModalService,
-    private _service: EmployeeFinalSubmitService,
-    private finalSubmitservice: EmployeeFinalSubmitService
-     ) {}
-  ngOnInit(): void 
-  {
-    this.EmpID = localStorage.getItem("EmpID");
-    var finalSubmit = localStorage.getItem("FInalSubmit");
-    if (finalSubmit == "true") {
-      this.tabDiabled= true;
+    private finalSubmitService: EmployeeFinalSubmitService
+  ) {}
+
+  ngOnInit(): void {
+    this.EmpID = localStorage.getItem('EmpID');
+    this.finalSubmitService.finalSubmitted$.subscribe(({ empId, submitted }) => {
+      if (String(localStorage.getItem('EmpID')) === String(empId)) {
+        this.EmpID = empId;
+        this.key = localStorage.getItem('EmpCode');
+        this.setFinalSubmitState(submitted);
+      }
+    });
+
+    const routeKey = this.router.url.match(/^\/basic\/([^/?]+)/)?.[1];
+    if (!routeKey || routeKey === localStorage.getItem('EncKey')) {
+      this.getFinalSubmit();
     }
-    this.getFinalSubmit();
   }
-   
+
   navigateTo(path: string): void {
     this.router.navigateByUrl(path);
   }
-  ClearStorage(){
+
+  ClearStorage(): void {
     localStorage.clear();
     this.msgService.info('Refreshed!', { nzDuration: 2500 }).onClose!;
   }
-  FinalSubmit(){
+
+  FinalSubmit(): void {
     this.modalService.confirm({
       nzTitle: 'Confirm Submission',
       nzContent: 'Are you sure you want to submit?',
-      nzOnOk: () => {
-        this.finalSubmit();
-        window.location.reload();
-      }
+      nzOnOk: () => this.finalSubmit(),
     });
   }
-  finalSubmit()
-  {
-    var frmData = new FormData();
-    frmData.append("EmpID",this.EmpID);
 
-    this._service.FinalSubmit(frmData).subscribe({
-      next : (res)=>
-        {
-        this.msgService.success(res.message, 
-        {
-          nzDuration: 3000,
-        })
-        localStorage.clear();
+  finalSubmit(): void {
+    const frmData = new FormData();
+    frmData.append('EmpID', this.EmpID);
+
+    this.finalSubmitService.FinalSubmit(frmData).subscribe({
+      next: (res) => {
+        if (res?.success !== true) {
+          this.msgService.error(res?.message || 'Final submission failed.');
+          return;
+        }
+
+        this.msgService.success(res.message, { nzDuration: 3000 });
+        this.getFinalSubmit(this.EmpID);
       },
-      error :(err)=>{
-        this.msgService.success(err.message, 
-          {
-            nzDuration: 3000,
-          })
+      error: (err) => {
+        this.msgService.error(err.message || 'Final submission failed.');
       },
-    })
+    });
   }
 
-  getFinalSubmit() 
-  { 
-    if (localStorage.getItem('EmpID') != null) {
-      this.finalSubmitservice.GetFinalSubmitByEmpId(localStorage.getItem('EmpID')).subscribe({
-        next: (res) => {
-          if (res.success === false) {
-            this.isfinalSubmit = true;
-            this.showFinalSubmitedPage = false;
-          } else {
-            var data = res.datas;
-            if (data && data.length > 0 && data[0].hasOwnProperty('isFinalSubmit')) {
-              if (data[0].isFinalSubmit === true) {
-                this.isfinalSubmit = false;
-                this.showFinalSubmitedPage = true;
-              } else {
-                this.isfinalSubmit = false;
-                this.showFinalSubmitedPage = true;
-              }
-            } else {
-              this.isfinalSubmit = true;
-              this.showFinalSubmitedPage = false;
-            }
-          }
-        },
-      });
+  getFinalSubmit(empId: any = this.EmpID): void {
+    if (!empId) {
+      this.setFinalSubmitState(false);
+      return;
     }
-    else{
-      this.isfinalSubmit =  true ;
-      this.showFinalSubmitedPage = false;
-    }
-   
+
+    this.finalSubmitService.isFinalSubmitted(empId).subscribe((submitted) => {
+      this.EmpID = empId;
+      this.setFinalSubmitState(submitted);
+    });
   }
 
+  private setFinalSubmitState(submitted: boolean): void {
+    this.isfinalSubmit = !submitted;
+    this.showFinalSubmitedPage = submitted;
+  }
 }

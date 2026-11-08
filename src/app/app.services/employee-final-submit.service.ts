@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeFinalSubmitService 
 {
+  readonly finalSubmitted$ = new Subject<{ empId: any; submitted: boolean }>();
+
   constructor(private _HttpClient: HttpClient) {}
 
   baseURL = environment.apiUrl;
@@ -25,6 +28,14 @@ export class EmployeeFinalSubmitService
     return this._HttpClient.post<any>(
       this.baseURL + "NewUserFinalSubmit/NewUserFinalSubmitByEmpId",
       payload,{headers : headers}
+    );
+  }
+
+  isFinalSubmitted(empId: any): Observable<boolean> {
+    return this.GetFinalSubmitByEmpId(empId).pipe(
+      map((res) => res?.success === true && res.datas?.[0]?.isFinalSubmit === true),
+      catchError(() => of(false)),
+      tap((submitted) => this.finalSubmitted$.next({ empId, submitted }))
     );
   }
 }
