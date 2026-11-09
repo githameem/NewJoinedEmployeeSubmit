@@ -18,13 +18,12 @@ import { SignatureComponent } from './app.landing/signature/signature.component'
 const routes: Routes = [
   {
     path: '',
-    component: BasicInfoComponent,
-    canActivate: [AuthGuard]
+    component: BasicInfoComponent
   },
   {
+    // Not guarded: this page binds the employee from the URL key and shows the submitted card itself.
     path: 'basic/:key',
-    component: BasicInfoComponent,
-    canActivate: [AuthGuard]
+    component: BasicInfoComponent
   },
   {
     path: 'contact',

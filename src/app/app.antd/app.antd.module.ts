@@ -22,6 +22,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 
 
@@ -48,6 +49,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzSelectModule,
     NzDatePickerModule,
     NzModalModule,
+    NzSpinModule,
     NzInputNumberModule,
     NzImageModule,
     NzResultModule,
@@ -72,6 +74,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzSelectModule,
     NzDatePickerModule,
     NzModalModule,
+    NzSpinModule,
     NzInputNumberModule,
     NzImageModule,
     NzResultModule,

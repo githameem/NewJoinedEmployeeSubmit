@@ -23,7 +23,7 @@ export class DrivingLicenseComponent implements OnInit
 
   }
   ngOnInit(): void {
-    this.EmpId = localStorage.getItem("EmpID");
+    this.EmpId = sessionStorage.getItem("EmpID");
     this.getCountry();
     this.getDrivingLisenceByEmp();
   }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { EmployeeFinalSubmitService } from '../app.services/employee-final-submit.service';
+import { EmployeeContextService } from '../app.services/employee-context.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,28 +11,18 @@ import { EmployeeFinalSubmitService } from '../app.services/employee-final-submi
 export class AuthGuard implements CanActivate {
   constructor(
     private finalSubmitService: EmployeeFinalSubmitService,
+    private context: EmployeeContextService,
     private router: Router
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
-    const empId = localStorage.getItem('EmpID');
-    const routeKey = route.paramMap.get('key');
-    const storedKey = localStorage.getItem('EncKey');
-
-    if (!empId || (routeKey !== null && routeKey !== storedKey)) {
-      return of(true);
+  canActivate(): Observable<boolean | UrlTree> {
+    // Read at call time: the guard is a singleton.
+    const empId = this.context.empId;
+    if (!empId) {
+      return of(this.router.createUrlTree(['/']));
     }
-
-    return this.finalSubmitService.GetFinalSubmitByEmpId(empId).pipe(
-      map((res) => {
-        if (res?.success !== true || !Array.isArray(res.datas) || res.datas.length === 0) {
-          return true;
-        }
-
-        return res.datas[0]?.isFinalSubmit === true
-          ? this.router.createUrlTree(['/finalsubmit'])
-          : true;
-      }),
+    return this.finalSubmitService.isFinalSubmitted(empId).pipe(
+      map((submitted) => (submitted ? this.router.createUrlTree(['/finalsubmit']) : true)),
       catchError(() => of(true))
     );
   }

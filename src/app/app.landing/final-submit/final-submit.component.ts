@@ -15,7 +15,7 @@ export class FinalSubmitComponent implements OnInit
 
   }
   ngOnInit(): void {
-  //  this.EmpID = localStorage.getItem("EmpID");
+    this.EmpID = sessionStorage.getItem("EmpID");
   //  this.confirmAndFinalSubmit();
   }
 

@@ -79,7 +79,7 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   GetPersonaInfo() {
-    this.EmpID = localStorage.getItem('EmpCode');
+    this.EmpID = sessionStorage.getItem('EmpCode');
     this.PersonalInfo = this.personalService
       .GetBasicInfoByCode(this.EmpID)
       .subscribe({

@@ -18,7 +18,7 @@ export class SignatureComponent implements OnInit{
   constructor(private http: HttpClient,private signatureService : EmployeeSignatureService) {}
 
   ngOnInit(): void {
-    this.EmpId = localStorage.getItem("EmpID");
+    this.EmpId = sessionStorage.getItem("EmpID");
     this.getEmpSignature();
   }
   getEmpSignature(){

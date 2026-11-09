@@ -36,7 +36,7 @@ export class ContactInfoComponent implements OnInit {
               private cdr : ChangeDetectorRef)
   {  }
   ngOnInit(): void {
-    this.EmpId = localStorage.getItem("EmpID");
+    this.EmpId = sessionStorage.getItem("EmpID");
     this.getContacts();
     this.getDistrict();
     this.getDivision();

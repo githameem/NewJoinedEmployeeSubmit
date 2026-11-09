@@ -35,11 +35,11 @@ export class EducationInfoComponent implements OnInit {
     private msgService: NzMessageService
   ) {}
   ngOnInit(): void {
-    this.EmpId = localStorage.getItem('EmpID');
+    this.EmpId = sessionStorage.getItem('EmpID');
     this.getDegree();
     this.getBoard();
     this.getEducation();
-    localStorage.setItem("eduInsert",(this.educationInsert).toString());
+    sessionStorage.setItem("eduInsert",(this.educationInsert).toString());
   }
 
   educationForm = new FormGroup({
@@ -125,7 +125,7 @@ export class EducationInfoComponent implements OnInit {
             next: (response) => 
               {
               this.educationInsert = true;
-              localStorage.setItem("eduInsert",(this.educationInsert).toString());
+              sessionStorage.setItem("eduInsert",(this.educationInsert).toString());
               this.msgService.success(response.message, 
               {
                 nzDuration: 3000,

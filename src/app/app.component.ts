@@ -1,54 +1,71 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EmployeeFinalSubmitService } from './app.services/employee-final-submit.service';
+import { EmployeeContextService } from './app.services/employee-context.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'NewJoinedEmployee';
-  key = localStorage.getItem('EmpCode');
-  EmpID: any;
   isfinalSubmit = false;
   showFinalSubmitedPage = false;
+  loading = true;
+  submitting = false;
+  private sub?: Subscription;
 
   constructor(
     private router: Router,
     private msgService: NzMessageService,
     private modalService: NzModalService,
-    private finalSubmitService: EmployeeFinalSubmitService
+    private finalSubmitService: EmployeeFinalSubmitService,
+    public context: EmployeeContextService
   ) {}
 
   ngOnInit(): void {
-    this.EmpID = localStorage.getItem('EmpID');
-    this.finalSubmitService.finalSubmitted$.subscribe(({ empId, submitted }) => {
-      if (String(localStorage.getItem('EmpID')) === String(empId)) {
-        this.EmpID = empId;
-        this.key = localStorage.getItem('EmpCode');
-        this.setFinalSubmitState(submitted);
-      }
+    this.sub = this.context.finalSubmitted$.subscribe((value) => {
+      this.loading = value === null;
+      this.isfinalSubmit = value === false;
+      this.showFinalSubmitedPage = value === true;
     });
 
-    const routeKey = this.router.url.match(/^\/basic\/([^/?]+)/)?.[1];
-    if (!routeKey || routeKey === localStorage.getItem('EncKey')) {
-      this.getFinalSubmit();
+    // On a non-basic route (e.g. refresh on /contact) resolve status for the tab's employee.
+    // basic/:key resolves it itself after loading the employee from the URL.
+    const isBasicWithKey = /^\/basic\/[^/?]+/.test(this.router.url) || /#\/basic\/[^/?]+/.test(window.location.hash);
+    if (!isBasicWithKey) {
+      if (this.context.empId) {
+        this.context.refreshFinalSubmitStatus().subscribe();
+      } else {
+        this.context.finalSubmitted$.next(false);
+      }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 
   navigateTo(path: string): void {
     this.router.navigateByUrl(path);
   }
 
+  navigateToBasic(): void {
+    this.router.navigateByUrl(this.context.encKey ? '/basic/' + this.context.encKey : '/');
+  }
+
   ClearStorage(): void {
-    localStorage.clear();
-    this.msgService.info('Refreshed!', { nzDuration: 2500 }).onClose!;
+    this.context.clear();
+    sessionStorage.clear();
+    this.msgService.info('Refreshed!', { nzDuration: 2500 });
   }
 
   FinalSubmit(): void {
+    if (this.submitting) return;
     this.modalService.confirm({
       nzTitle: 'Confirm Submission',
       nzContent: 'Are you sure you want to submit?',
@@ -56,40 +73,39 @@ export class AppComponent implements OnInit {
     });
   }
 
-  finalSubmit(): void {
-    const frmData = new FormData();
-    frmData.append('EmpID', this.EmpID);
-
-    this.finalSubmitService.FinalSubmit(frmData).subscribe({
-      next: (res) => {
-        if (res?.success !== true) {
-          this.msgService.error(res?.message || 'Final submission failed.');
-          return;
-        }
-
-        this.msgService.success(res.message, { nzDuration: 3000 });
-        this.getFinalSubmit(this.EmpID);
-      },
-      error: (err) => {
-        this.msgService.error(err.message || 'Final submission failed.');
-      },
-    });
-  }
-
-  getFinalSubmit(empId: any = this.EmpID): void {
+  private finalSubmit(): void {
+    const empId = this.context.empId;
     if (!empId) {
-      this.setFinalSubmitState(false);
+      this.msgService.error('Employee not loaded. Please open your registration link again.');
       return;
     }
+    this.submitting = true;
 
-    this.finalSubmitService.isFinalSubmitted(empId).subscribe((submitted) => {
-      this.EmpID = empId;
-      this.setFinalSubmitState(submitted);
+    // Server-side pre-check: never submit twice.
+    this.context.refreshFinalSubmitStatus().subscribe((alreadySubmitted) => {
+      if (alreadySubmitted) {
+        this.submitting = false;
+        this.msgService.warning('Already submitted');
+        return;
+      }
+
+      const frmData = new FormData();
+      frmData.append('EmpID', empId);
+      this.finalSubmitService.FinalSubmit(frmData).subscribe({
+        next: (res) => {
+          if (res?.success === false) {
+            this.submitting = false;
+            this.msgService.error(res?.message || 'Final submission failed.');
+            return;
+          }
+          this.msgService.success(res?.message || 'Submitted successfully.', { nzDuration: 3000 });
+          this.context.refreshFinalSubmitStatus().subscribe(() => (this.submitting = false));
+        },
+        error: (err) => {
+          this.submitting = false;
+          this.msgService.error(err?.message || 'Final submission failed.');
+        },
+      });
     });
-  }
-
-  private setFinalSubmitState(submitted: boolean): void {
-    this.isfinalSubmit = !submitted;
-    this.showFinalSubmitedPage = submitted;
   }
 }

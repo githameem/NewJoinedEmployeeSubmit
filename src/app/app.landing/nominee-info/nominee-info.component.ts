@@ -47,8 +47,8 @@ export class NomineeInfoComponent implements OnInit {
   parserPercent = (value: string): string => value.replace(' %', '');
 
   ngOnInit(): void {
-    this.EmpId = localStorage.getItem('EmpID');
-    this.EmpCode = localStorage.getItem('EmpCode');
+    this.EmpId = sessionStorage.getItem('EmpID');
+    this.EmpCode = sessionStorage.getItem('EmpCode');
     this.GetRelationShips();
     this.GetNomineesByEmployee();
   }
@@ -69,7 +69,7 @@ export class NomineeInfoComponent implements OnInit {
   GetNomineesByEmployee() {
     this.nomineeService.GetNomineeByEmpId(this.EmpId).subscribe({
       next: (response) => {
-        localStorage.setItem('NomineeId', response.datas.nomineeId);
+        sessionStorage.setItem('NomineeId', response.datas.nomineeId);
         this.NomineeList = response.datas;
       },
       error: (err) => {

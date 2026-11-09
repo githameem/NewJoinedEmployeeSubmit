@@ -1,4 +1,5 @@
-<nz-card *ngIf="isfinalSubmit" style="width:100%;" nzTitle="Employee Basic">
+<div *ngIf="(finalSubmitted$ | async) === null" style="text-align:center;padding:48px;"><nz-spin nzSimple></nz-spin></div>
+<nz-card *ngIf="(finalSubmitted$ | async) === false" style="width:100%;" nzTitle="Employee Basic">
     <div class="header">
         <title>Basic Information</title>
     </div>
@@ -117,7 +118,7 @@
         </div>
     </div>
 </nz-card>
-<nz-card *ngIf="showFinalSubmitedPage">
+<nz-card *ngIf="(finalSubmitted$ | async) === true">
     <nz-result nzStatus="500" nzTitle="202" nzSubTitle="Sorry, You Already Submited your informations.">
         <!-- <div nz-result-extra>
           <button nz-button nzType="primary">Back Home</button>

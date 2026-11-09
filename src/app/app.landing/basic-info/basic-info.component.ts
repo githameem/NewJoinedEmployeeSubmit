@@ -13,7 +13,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DycriptionService } from 'src/app/app.services/dycription.service';
-import { EmployeeFinalSubmitService } from 'src/app/app.services/employee-final-submit.service';
+import { EmployeeContextService } from 'src/app/app.services/employee-context.service';
 
 @Component({
   selector: 'app-basic-info',
@@ -31,8 +31,8 @@ export class BasicInfoComponent implements OnInit {
   empID: any;
   submittingForm: boolean = false;
 
-  isfinalSubmit = false;
-  showFinalSubmitedPage = false;
+  /** null = loading, true = submitted, false = not submitted (API decides) */
+  get finalSubmitted$() { return this.context.finalSubmitted$; }
   constructor(
     private fb: NonNullableFormBuilder,
     private basicService: BasicInformationService,
@@ -43,20 +43,27 @@ export class BasicInfoComponent implements OnInit {
     private datePipe: DatePipe,
     private activeRoute: ActivatedRoute,
     private dyc: DycriptionService,
-    private finalSubmitservice: EmployeeFinalSubmitService,
+    private context: EmployeeContextService,
   ) {}
-
 
   ngOnInit(): void {
     this.parmKey = this.activeRoute.snapshot.paramMap.get('key');
-    if (this.parmKey !== null) {
-      localStorage.setItem('EncKey', this.parmKey);
+    if (this.parmKey) {
+      // URL key always wins. It decodes to the EmpCode (not the EmpID).
       this.encID = this.dyc.DycrptToId(this.parmKey);
+      if (String(this.encID) !== String(this.context.empCode)) {
+        this.context.clear(); // a different employee in this tab
+      }
     } else {
-      this.encID = localStorage.getItem('EmpCode');
+      this.encID = this.context.empCode;
+      this.parmKey = this.context.encKey;
     }
 
-    this.getBasicInfo();
+    if (this.encID) {
+      this.getBasicInfo();
+    } else {
+      this.context.finalSubmitted$.next(false);
+    }
     this.getDesignation();
     this.getEmpStatus();
   }
@@ -67,15 +74,12 @@ export class BasicInfoComponent implements OnInit {
         const employee = res?.datas?.[0];
         if (!employee) {
           this.msgService.error(res?.message || 'Employee information was not found.');
+          this.context.finalSubmitted$.next(false);
           return;
         }
 
         this.fetchedEmployeeInfo = res.datas;
-        localStorage.setItem('EmpID', employee.empID);
-        localStorage.setItem('EmpCode', employee.empCode);
-        if (this.parmKey !== null) {
-          localStorage.setItem('EncKey', this.parmKey);
-        }
+        this.context.setEmployee(employee.empID, employee.empCode, this.parmKey);
 
         this.basicForm.patchValue({
           EmpID: employee.empID,
@@ -86,13 +90,11 @@ export class BasicInfoComponent implements OnInit {
         });
         this.cdr.detectChanges();
 
-        this.finalSubmitservice.isFinalSubmitted(employee.empID).subscribe((submitted) => {
-          this.isfinalSubmit = !submitted;
-          this.showFinalSubmitedPage = submitted;
-        });
+        this.context.refreshFinalSubmitStatus().subscribe();
       },
       error: (err) => {
         this.msgService.error(err.message || 'Unable to load employee information.');
+        this.context.finalSubmitted$.next(false);
       },
     });
   }
