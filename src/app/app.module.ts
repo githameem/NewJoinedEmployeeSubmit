@@ -14,6 +14,7 @@ import { AppAntdModule } from './app.antd/app.antd.module';
 import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
 import { RouterModule, provideRouter } from '@angular/router';
 import { AppLandingModule } from './app.landing/app.landing.module';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 
 registerLocaleData(en);
@@ -31,10 +32,11 @@ registerLocaleData(en);
     AppAntdModule,
     AppRoutingModule,
     AppLandingModule,
-    DatePipe
-  ],
+    DatePipe,
+    NzSpinModule
+],
   providers: [
-    { 
+    {
       provide: NZ_I18N, useValue: en_US
      },DatePipe
   ],
