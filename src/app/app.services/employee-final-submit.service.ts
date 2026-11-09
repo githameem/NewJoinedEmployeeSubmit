@@ -19,7 +19,7 @@ export class EmployeeFinalSubmitService
     );
   }
   GetFinalSubmitByEmpId(EmpId: any) : Observable<any> {
-    const payload = JSON.stringify(EmpId);
+    const payload = JSON.stringify(String(EmpId));
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -29,22 +29,19 @@ export class EmployeeFinalSubmitService
     );
   }
 
-  /** Only isFinalSubmit === true || === 1 counts as submitted. Missing record / errors => false. */
-  isFinalSubmitted(empId: any): Observable<boolean> {
-    if (empId === null || empId === undefined || String(empId).trim() === '' || empId === 'null') {
+  /** Single source of truth: submitted only if success && any row has isFinalSubmit true/1/'true'. */
+  static isSubmittedResponse(res: any): boolean {
+    return res?.success === true && Array.isArray(res.datas) &&
+      res.datas.some((r: any) => r?.isFinalSubmit === true || r?.isFinalSubmit === 1 ||
+        String(r?.isFinalSubmit).toLowerCase() === 'true');
+  }
+
+  isFinalSubmitted(empId: string | number | null | undefined): Observable<boolean> {
+    if (empId === null || empId === undefined || String(empId).trim() === '' || String(empId) === 'null') {
       return of(false);
     }
-    return this.GetFinalSubmitByEmpId(empId).pipe(
-      map((res) => {
-        if (res?.success === false) {
-          console.warn('GetFinalSubmitByEmpId returned success=false', res?.message);
-          return false;
-        }
-        const datas = res?.datas;
-        const record = Array.isArray(datas) ? datas[0] : datas;
-        const flag = record?.isFinalSubmit;
-        return flag === true || flag === 1;
-      }),
+    return this.GetFinalSubmitByEmpId(String(empId)).pipe(
+      map((res) => EmployeeFinalSubmitService.isSubmittedResponse(res)),
       catchError((err) => {
         console.error('GetFinalSubmitByEmpId failed', err);
         return of(false);

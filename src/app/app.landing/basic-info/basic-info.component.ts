@@ -90,7 +90,13 @@ export class BasicInfoComponent implements OnInit {
         });
         this.cdr.detectChanges();
 
-        this.context.refreshFinalSubmitStatus().subscribe();
+        this.context.refreshFinalSubmitStatus().subscribe({
+          error: (err) => {
+            console.error(err);
+            this.msgService.error(err?.message || 'Unable to check final submission status.');
+            this.context.finalSubmitted$.next(false);
+          },
+        });
       },
       error: (err) => {
         this.msgService.error(err.message || 'Unable to load employee information.');
